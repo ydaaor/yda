@@ -1,9 +1,15 @@
 import time
+import threading
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from scanner.stock_scanner import StockScanner
 from trading.trade_manager import TradeManager
 from trading.risk_controller import RiskController
 from logger.logger import Logger
-from interface.web_interface import run_app
+from interface import web_interface
 
 def main():
     scanner = StockScanner()
@@ -31,7 +37,8 @@ def main():
         time.sleep(5)
 
 if __name__ == "__main__":
-    # ניתן להפעיל את הממשק ב-thread נפרד אם רוצים
-    import threading
-    threading.Thread(target=run_app, daemon=True).start()
+    threading.Thread(
+        target=lambda: web_interface.app.run(host='0.0.0.0', port=8080, use_reloader=False),
+        daemon=True
+    ).start()
     main()
