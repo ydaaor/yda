@@ -1,8 +1,3 @@
 HEAD
-# project
-# project
-# yda
-# yda
-=======
 # yda
 48a459aaab0e8ac091c1b3a1f36bd79ecc5d0f63
