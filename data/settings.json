@@ -1,0 +1,7 @@
+{
+    "position_size_min": 7000,
+    "position_size_max": 8000,
+    "take_profit_pct": 10,
+    "stop_loss_pct": 5,
+    "max_positions_per_stock_per_day": 1
+}

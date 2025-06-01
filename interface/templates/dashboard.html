@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>רובוט מסחר - דשבורד</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { background: #fff8f0; color: #222; font-family: Arial,sans-serif; }
+        .header { background: #ffa726; color: #fff; padding: 20px; }
+        .container { max-width: 900px; margin: auto; padding: 20px; }
+        .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 6px #ffe0b2; margin-bottom: 20px; padding: 20px; }
+        .btn { background: #ffa726; color: #fff; border: none; border-radius: 5px; padding: 10px 18px; font-size: 16px; cursor: pointer; }
+        @media (max-width:600px) {
+            .container { padding: 5px; }
+            .card { padding: 10px; }
+        }
+        .yellow { color: #ffa726; }
+    </style>
+</head>
+<body dir="rtl">
+    <div class="header">
+        <h1>רובוט מסחר מתקדם</h1>
+    </div>
+    <div class="container">
+        <div class="card">
+            <h2>מצב חשבון Alpaca</h2>
+            <div id="alpaca_account">
+                טוען נתוני חשבון...
+            </div>
+        </div>
+        <div class="card">
+            <h2>פוזיציות פעילות</h2>
+            <div id="positions"></div>
+        </div>
+        <div class="card">
+            <h2>עסקאות שבוצעו</h2>
+            <div id="trades"></div>
+        </div>
+        <div class="card">
+            <h2>סטטוס שוק</h2>
+            <div id="market_status"></div>
+        </div>
+        <div class="card">
+            <h2>יומן החלטות</h2>
+            <div id="log"></div>
+        </div>
+        <div class="card">
+            <button class="btn" onclick="toggleBot()">הפעל/השהה רובוט</button>
+            <button class="btn" onclick="showParams()">שינוי פרמטרים</button>
+        </div>
+    </div>
+    <script>
+        function fetchAlpacaAccount() {
+            fetch('/api/alpaca_account')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('alpaca_account').innerText = "שגיאה: " + data.error;
+                        return;
+                    }
+                    document.getElementById('alpaca_account').innerHTML = `
+                        <b>Account Number:</b> ${data.account_number}<br>
+                        <b>Status:</b> <span class="yellow">${data.status}</span><br>
+                        <b>Cash:</b> $${Number(data.cash).toLocaleString()}<br>
+                        <b>Buying Power:</b> $${Number(data.buying_power).toLocaleString()}<br>
+                        <b>Portfolio Value:</b> $${Number(data.portfolio_value).toLocaleString()}<br>
+                        <b>Equity:</b> $${Number(data.equity).toLocaleString()}<br>
+                        <b>Currency:</b> ${data.currency}<br>
+                        <b>Last Equity:</b> $${Number(data.last_equity).toLocaleString()}<br>
+                        <b>Created At:</b> ${data.created_at}
+                    `;
+                });
+        }
+
+        // קריאה ראשונית וקריאות חוזרות כל 30 שניות
+        fetchAlpacaAccount();
+        setInterval(fetchAlpacaAccount, 30000);
+
+        // דוגמאות לפונקציות כפתורים (השלם לפי המערכת שלך)
+        function toggleBot() { /* ... */ }
+        function showParams() { /* ... */ }
+    </script>
+</body>
+</html>

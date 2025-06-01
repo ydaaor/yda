@@ -1,0 +1,6 @@
+.env
+*.pyc
+__pycache__/
+data/positions.json
+data/trades_log.txt
+reports/
